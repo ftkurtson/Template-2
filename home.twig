@@ -16,6 +16,26 @@
         {{widget('extendednavigation', 'navigationheader', {})|raw}}
     </div>
 	<div id="fb-root"></div>
+	{% set url = '' %}
+{% for page in pages %}
+    {% if page.type == 'home' and app.mode == 'site-preview' %}
+        {% set url = page.request %}
+    {% endif %}
+{% endfor %}
+
+{% set logo = null %}
+{% if data.useTemplate != 1 and profile.logo and profile.logo != '' %}
+    {% set logo = profile.logo %}
+{% elseif data.defaultlogo and data.defaultlogo != '' %}
+    {% set logo = data.defaultlogo %}
+{% endif %}
+
+<a href="{{ relativeUrlPrefix }}/{{ url }}">
+
+<div class="logo">
+    <img alt="{% if profile.business and profile.business != '' %}{{profile.business}}{% else %}logo{% endif %}" src="{% if logo and logo|length > 0 %}{{logo}}{% else %}{{'/images/mobile/default-logo.png'|expandAssetUrl}}{% endif %}" {% if data.width and data.width != '' and profile.logo and profile.logo != '' and data.useTemplate != 1 %}style="width: {{data.width}}" {% endif %} />
+</div>
+</a>
 <script>
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
