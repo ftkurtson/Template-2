@@ -1,0 +1,120 @@
+{% if plugins.ecommerce.store.stripePublishableKey != null or plugins.ecommerce.store.paypal != false %}
+
+    <h2 class="checkout-title js-checkout-title">{{ 'widgets.ecomcheckout.checkout_title'|translate('Checkout') }}</h2>
+    <table class='js-checkout-itemstable'>{# widget_checkout_items #}</table>
+
+    {% if plugins.ecommerce.store.chargeUrl|length > 0 and plugins.ecommerce.store.ref|length > 0 and plugins.ecommerce.store.paymentCompletionUrl|length > 0 and sitePrimaryDomain|length > 0 %}
+
+    <form class="checkout-form js-checkout-form" action="{{ plugins.ecommerce.store.chargeUrl }}" method="POST" novalidate>
+        <input type="hidden" name="storeRef" value="{{ plugins.ecommerce.store.ref }}">
+        <input type="hidden" name="storeUrl" value="http://{{ sitePrimaryDomain }}/store">
+        <input type="hidden" name="orderConfirmationUrl" value="http://{{ sitePrimaryDomain }}/store/order-confirmation">
+        <input type="hidden" name="paymentCompletionUrl" value="{{ plugins.ecommerce.store.paymentCompletionUrl }}">
+
+        <div class="delivery">
+            <h3 class="delivery-title">{{ 'widgets.ecomcheckout.delivery_title'|translate('Delivery details') }}</h3>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="delivery[name]" id="name" required autocomplete="name">
+                <span>Please enter your name</span>
+            </div>
+
+            <div class="form-group">
+                <label for="address1">Address line 1:</label>
+                <input type="text" name="delivery[address1]" id="address1" required autocomplete="address-line1">
+                <span>Please enter your address</span>
+            </div>
+
+            <div class="form-group">
+                <label for="address2">Address line 2 (optional):</label>
+                <input type="text" name="delivery[address2]" id="address2" autocomplete="address-line2">
+            </div>
+
+            <div class="form-group">
+                <label for="postcode">Postal code:</label>
+                <input type="text" name="delivery[postcode]" id="postcode" required autocomplete="postal-code">
+                <span>Please enter your postcode</span>
+            </div>
+
+            <div class="form-group">
+                <label for="country">{{ 'widgets.ecomcheckout.country'|translate('Country') }}</label>
+                <select id="country" name="delivery[countryCode]" required autocomplete="country-code">
+                    {% set uaCountryCode = plugins.ecommerce.uaCountryCode %}
+                    {% if uaCountryCode|length and plugins.ecommerce.countries[uaCountryCode]|length %}
+                        <option value="{{ uaCountryCode }}" selected>{{ plugins.ecommerce.countries[uaCountryCode] }}</option>
+                    {% else %}
+                        <option value="">{{ 'widgets.ecomcheckout.choose_country'|translate('Choose your country') }}</option>
+                    {% endif %}
+                    <option vale="" disabled>---</option>
+                    {% for code, country in plugins.ecommerce.countries %}
+                        {% if code != uaCountryCode %}
+                            <option value="{{ code }}">{{ country }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <span>Please select your country</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="customerEmail" id="email" required autocomplete="email">
+                <span>Please provide an email address</span>
+            </div>
+
+            <div class="form-group js-shipping-opts">
+                {# widget_ecomcheckout_shippingopts #}
+            </div>
+
+            <div class="delivery-price"></div>
+        </div>
+
+        {% if plugins.ecommerce.store.taxProducts == true %}
+            <div class="checkout-total-tax"></div>
+        {% endif %}
+
+        <div class="checkout-total-amount"></div>
+
+        {% if plugins.ecommerce.store.stripePublishableKey != null and plugins.ecommerce.store.paypal != false %}
+            <div class="checkout-payment-method">
+                <h3 class="checkout-payment-title">{{ "widgets.ecomcheckout.payments"|translate("Select a payment method") }}</h3>
+
+                <div class="checkout-payment-card">
+                    <input id="paywithstripe" type="radio" name="paymentMethod" value="stripe" checked>
+                    <label for="paywithstripe">{{ "widgets.ecomcheckout.paywithstripe"|translate("Pay with card") }}</label>
+                </div>
+
+                <div class="checkout-payment-paypal">
+                    <input id="paywithpaypal" type="radio" name="paymentMethod" value="paypal">
+                    <label for="paywithpaypal">{{ "widgets.ecomcheckout.paywithpaypal"|translate("Pay with PayPal") }}</label>
+                </div>
+            </div>
+        {% elseif plugins.ecommerce.store.stripePublishableKey != null %}
+            <input id="paywithstripe" type="hidden" name="paymentMethod" value="stripe">
+        {% elseif plugins.ecommerce.store.paypal != false %}
+            <input id="paywithpaypal" type="hidden" name="paymentMethod" value="paypal">
+        {% endif %}
+
+        <button class="checkout-order-button btn js-create-order" type="submit" {% if app.mode != 'published' %}disabled{% endif %}>{{ 'widgets.ecomcheckout.proceed_payment'|translate('Continue to payment') }}</button>
+
+        {# widget_ecomcheckout_itemsinput #}
+    </form>
+
+    {% else %}
+        <div>{{ 'widgets.ecomcheckout.no_available'|translate('Checkout is not currently available, please try again later')}}</div>
+    {% endif %}
+
+    {% if plugins.ecommerce.store.termsAndConditions %}
+    <ul class="checkout-legal-links">
+        <li><a href="/terms-and-conditions"> {{ 'widgets.ecomcheckout.legal_menu_tandc'|translate("Terms and conditions") }}</a></li>
+    </ul>
+    {% endif %}
+
+{% else %}
+
+    {% if plugins.ecommerce.store.email|length > 0 %}
+        <div>{{ 'widgets.ecomcheckout.nopayment_available'|translate("This store doesn't currently support taking payments. Please contact the store owner at %1.", plugins.ecommerce.store.email)}}</div>
+    {% else %}
+        <div>{{ 'widgets.ecomcheckout.nopayment_available_general'|translate("This store doesn't currently support taking payments.")}}</div>
+    {% endif %}
+
+{% endif %}

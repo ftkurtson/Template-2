@@ -1,0 +1,69 @@
+<li class="menu-item{% if item.highlight %} menu-item-promoted{% endif %}">
+    <div class="inner-item">
+        <h3 class="menu-item-name">{{ item.title }}</h3>
+
+        {% if item.assetRef > 0 or item.defaultImageUrl|length > 0 %}
+            {% if item.assetRef > 0 %}
+                {% set ref = item.assetRef %}
+                {% set imageUrl = plugins.assets.images[ref].url %}
+            {% else %}
+                {% set imageUrl = item.defaultImageUrl %}
+            {% endif %}
+
+        <div class="menu-item-image-wrap print-bg-override" style="background-image:url('{{ imageUrl }}')">
+            <img class="menu-item-image" alt="" src="{{ imageUrl }}">
+        </div>
+       {% endif %}
+
+        {% if item.prices|length > 0 and item.prices.price != '' %}
+        <div class="menu-item-price">
+            {% if item.prices.name == 'Normal' %}
+                <p class="standard-price">{{ plugins.menu.currency.htmlCode|raw }}{{ item.prices.price }}</p>
+            {% else %}
+                <p class="variant-price">{{ item.prices.name }} {{ plugins.menu.currency.htmlCode|raw }}{{ item.prices.price }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if item.description|length > 0 %}
+            <p class="menu-item-description">{{ item.description }}</p>
+        {% endif %}
+
+        {% if item.foodNutrition|length > 0 %}
+            <h4 class="menu-item-nutritional-title">Nutritional information</h4>
+            <div class="menu-item-nutritional-prop"> {{ item.foodNutrition }} </div>
+        {% endif %}
+
+        {% if item.dietaryInfo|length > 0 %}
+            <div class="menu-section-item-dietary-props">
+                {% for key, value in item.dietaryInfo %}
+                    {% if value == 1 %}
+                        {% set key = key|lower %}
+                        <span class="{{ key|replace({'food':''}) }}-icon dietary-icon">
+                            {% if key == 'foodvegetarian' %}
+                                {{ "widgets.menu.dietaryicon_vegetarian"|translate('vegetarian') }}
+                            {% elseif key == 'foodvegan' %}
+                                {{ "widgets.menu.dietaryicon_vegan"|translate('vegan') }}
+                            {% elseif key == 'foodnutfree' %}
+                                {{ "widgets.menu.dietaryicon_nutfree"|translate('nutfree') }}
+                            {% elseif key == 'foodglutenfree' %}
+                                {{ "widgets.menu.dietaryicon_glutenfree"|translate('glutenfree') }}
+                            {% elseif key == 'fooddairyfree' %}
+                                {{ "widgets.menu.dietaryicon_dairyfree"|translate('dairyfree') }}
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                {% endfor %}
+                <span class="{{ item.foodSpicy|replace({' ':'-'}) }}-icon dietary-icon">
+                    {% if item.foodSpicy == 'spicy' %}
+                        {{ "widgets.menu.dietaryicon_spicy"|translate('mild') }}
+                    {% elseif item.foodSpicy == 'medium spicy' %}
+                        {{ "widgets.menu.dietaryicon_mediumspicy"|translate('medium') }}
+                    {% elseif item.foodSpicy == 'hot' %}
+                        {{ "widgets.menu.dietaryicon_hot"|translate('hot') }}
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    </div><!--end inner-item-->
+</li>

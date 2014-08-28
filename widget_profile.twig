@@ -1,0 +1,224 @@
+{# ADDRESS #}
+{% if data.profileType == 'address' %}
+<div class='bk-profile-address'>
+    {% if (data.address != 'profile' and data.address|length > 0) or (profile.address|length > 0) %}
+        <p class="address">{% if data.address|length > 0 and data.address != 'profile' %}{{ data.address }}{% else %}{{profile.address}} {% endif %}</p>
+    {% else %}
+        {% set noAddress = true %}
+    {% endif %}
+
+    {% if (data.address1 != 'profile' and data.address1|length > 0) or (profile.address1|length > 0) %}
+        <p class="address1">{% if data.address1|length > 0 and data.address1 != 'profile' %}{{ data.address1 }}{% else %}{{profile.address1}} {% endif %}</p>
+    {% else %}
+        {% set noAddress1 = true %}
+    {% endif %}
+
+    {% if (data.address2 != 'profile' and data.address2|length > 0) or (profile.address2|length > 0) %}
+        <p class="address2">{% if data.address2|length > 0 and data.address2 != 'profile' %}{{ data.address2 }}{% else %}{{profile.address2}} {% endif %}</p>
+    {% else %}
+        {% set noAddress2 = true %}
+    {% endif %}
+
+    {% if (data.country != 'profile' and data.country|length > 0) or (profile.country|length > 0) %}
+        <p class="country">{% if data.country|length > 0 and data.country != 'profile' %}{{ data.country }}{% else %}{{profile.country}} {% endif %}</p>
+    {% else %}
+        {% set noCountry = true %}
+    {% endif %}
+
+    {% if (data.addressPostalCode != 'profile' and data.addressPostalCode|length > 0) or (profile.postalcode|length > 0) %}
+        <p class="postal-code">{% if data.addressPostalCode|length > 0 and data.addressPostalCode != 'profile' %}{{ data.addressPostalCode }}{% else %}{{profile.postalcode}} {% endif %}</p>
+    {% else %}
+        {% set noPostalcode = true %}
+    {% endif %}
+
+    {% if noAddress and noAddress1 and noAddress2 and noCountry and noPostalcode and app.mode != 'published' and app.mode != 'site-preview' %}
+        <p class="no-address">No address</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{# EMAIL #}
+{% if data.profileType == 'email' %}
+<div class='bk-profile-email'>
+  {% if (data.email != 'profile' and data.email|length > 0) or (profile.email|length > 0) %}
+    <a href="mailto:{% if data.email|length > 0 and data.email != 'profile' %}{{ data.email }}{% else %}{{profile.email}}{% endif %}">{% if data.email|length > 0 and data.email != 'profile' %}{{ data.email }}{% else %}{{profile.email}}{% endif %}</a>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span>No email</span>
+  {% endif %}
+</div>
+{% endif %}
+
+{# HEADLINE #}
+{% if data.profileType == 'headline' %}
+  {% if (data.headline != 'profile' and data.headline|length > 0) or (profile.headline|length > 0) %}
+    <span class="bk-profile-headline">{% if data.headline|length > 0 and data.headline != 'profile' %}{{ data.headline }}{% else %}{{profile.headline}} {% endif %}</span>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span class="bk-profile-headline">No headline</span>
+  {% endif %}
+{% endif %}
+
+{# STRAP LINE #}
+{% if data.profileType == 'strapline' %}
+  {% if (data.strapline != 'profile' and data.strapline|length > 0) or (profile.strapline|length > 0) %}
+    <span class="bk-profile-strapline">{% if data.strapline|length > 0 and data.strapline != 'profile' %}{{ data.strapline }}{% else %}{{profile.strapline}} {% endif %}</span>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span class="bk-profile-strapline">No strapline</span>
+  {% endif %}
+{% endif %}
+
+{# COMPANY DESCRIPTION #}
+{% if data.profileType == 'companydescription' %}
+  {% if (data.companydescription != 'profile' and data.companydescription|length > 0) or (profile.companydescription|length > 0) %}
+    <span class="bk-profile-companydescription">{% if data.companydescription|length > 0 and data.companydescription != 'profile' %}{{ data.companydescription }}{% else %}{{profile.companydescription}} {% endif %}</span>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span class="bk-profile-companydescription">No company description</span>
+  {% endif %}
+{% endif %}
+
+{# PHONE NUMBER #}
+{% if data.profileType == 'phone' %}
+  {% if (data.phone != 'profile' and data.phone|length > 0) or (profile.phone|length > 0) %}
+    <span class="bk-profile-phone">{% if data.phone|length > 0 and data.phone != 'profile' %}{{ data.phone }}{% else %}{{profile.phone}} {% endif %}</span>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span class="bk-profile-phone">No phone number</span>
+  {% endif %}
+{% endif %}
+
+{# BUSINESS NAME #}
+{% if data.profileType == 'business' %}
+  {% if (data.business != 'profile' and data.business|length > 0) or (profile.business|length > 0) %}
+    <span class="bk-profile-business">{% if data.business|length > 0 and data.business != 'profile' %}{{ data.business }}{% else %}{{profile.business}} {% endif %}</span>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span class="bk-profile-business">No business</span>
+  {% endif %}
+{% endif %}
+
+{# COPYRIGHT #}
+{% if data.profileType == 'copyright' %}
+  {% if (data.copyright != 'profile' and data.copyright|length > 0) or (profile.copyright|length > 0) %}
+    <span  class="bk-profile-copyright">{% if data.copyright|length > 0 and data.copyright != 'profile' %}{{ data.copyright }}{% else %}{{profile.copyright}} {% endif %}</span>
+  {% elseif app.mode != 'published' and app.mode != 'site-preview' %}
+    <span class="bk-profile-copyright">No copyright</span>
+  {% endif %}
+{% endif %}
+
+{# LATEST TWEET #}
+{% if data.profileType == 'twitter' %}
+<ul class="twitter">
+
+{% if data.tweets|length > 0 %}
+  {% set tweet = data.tweets[0] %}
+  <li>
+    <div class="twitter-profile-pic">
+      <a href="https://twitter.com/{{ tweet.screenName }}" target="_blank">
+        <img alt="{{ tweet.fullName }}" title="{{ tweet.fullName }}" data-screename="{{ tweet.screenName }}" src="{{ tweet.imageUrl }}">
+      </a>
+    </div>
+
+    <div class="twitter-content">
+      <a href="https://twitter.com/{{ tweet.screenName }}" target="_blank">
+        <span class="bk-full-name"> {{ tweet.fullName }} </span>
+      </a>
+      <p> {{ tweet.text|raw }} </p>
+      <time class="created_at" data-value="{{ tweet.createdAt }}"> {{ tweet.createdAt }} </time>
+      <span> via </span>
+      <span> {{ tweet.source|raw }} </span>
+    </div>
+  </li>
+</ul>
+{% else %}
+<p>Retrieving tweets.</p>
+{% endif %}
+{% endif %}
+
+
+{# MAP #}
+{% if data.profileType == 'map' %}
+<div class="map"></div>
+{% endif %}
+
+
+{# SINGLE EMAIL FROM #}
+{% if data.profileType == 'form' %}
+<form action="" method="post">
+  <fieldset>
+    <div class="form-group"> {#    ****    ADDED WRAPPER   ****     #}
+
+      <label for="profileform-email">Your email:</label>
+      <input type="email" class="email" placeholder="Type your email" id="profileform-email" name="profileform-email">
+
+      <button class="btn btnText {% if data.formItalic %}italic{% endif %} {% if data.formBold %}bold{% endif %} {{data.formAlign}}" type="submit" {% if data.formFontSize|length > 0 %}style="font-size: {{data.formFontSize}}px"{% endif %}>{% if data.formText %}{{data.formText}}{% else %}Send{% endif %}</button>
+    </div>
+  </fieldset>
+</form>
+{% endif %}
+
+
+{# SOCIAL ICONS #}
+{% if data.profileType == 'socialicons' %}
+<div class='bk-profile-socialicons'>
+    <!-- linkedIn -->
+    {% if (data.socialIconsLinkedin != 'profile' and data.socialIconsLinkedin|length > 0) or (profile.linkedin|length > 0) %}
+    <span class="bk-socialicons-linkedin" >
+      <a href="{% if data.socialIconsLinkedin|length > 0 and data.socialIconsLinkedin != 'profile' %}{{ data.socialIconsLinkedin }}{% else %}{{profile.linkedin}}{% endif %}" target="_blank">Linkedin</a>
+    </span>
+    {% else %}
+      {% set noLinkedIn = true %}
+    {% endif %}
+
+    <!-- Twitter -->
+    {% if (data.socialIconsTwitter != 'profile' and data.socialIconsTwitter|length > 0) or (profile.twitter|length > 0) %}
+    <span class="bk-socialicons-twitter">
+      <a href="https://twitter.com/{% if data.socialIconsTwitter|length > 0 and data.socialIconsTwitter != 'profile' %}{{ data.socialIconsTwitter }}{% else %}{{profile.twitter}}{% endif %}" target="_blank">Twitter</a>
+    </span>
+    {% else %}
+      {% set noTwitter = true %}
+    {% endif %}
+
+    <!-- Facebook -->
+    {% if (data.socialIconsFacebook != 'profile' and data.socialIconsFacebook|length > 0) or (profile.facebook|length > 0) %}
+    <span class="bk-socialicons-facebook">
+      <a href="{% if data.socialIconsFacebook|length > 0 and data.socialIconsFacebook != 'profile' %}{{ data.socialIconsFacebook }}{% else %}{{profile.facebook}}{% endif %}" target="_blank">Facebook</a>
+    </span>
+    {% else %}
+      {% set noFacebook = true %}
+    {% endif %}
+
+    <!-- Rss -->
+    {% if (data.socialIconsRss != 'profile' and data.socialIconsRss|length > 0) or (profile.rss|length > 0) %}
+    <span class="bk-socialicons-rss">
+      <a href="{% if data.socialIconsRss|length > 0 and data.socialIconsRss != 'profile' %}{{ data.socialIconsRss }}{% else %}{{profile.rss}}{% endif %}" target="_blank">Rss</a>
+    </span>
+    {% else %}
+      {% set noRss = true %}
+    {% endif %}
+
+    <!-- Google+ -->
+    {% if (data.socialIconsGoogleplus != 'profile' and data.socialIconsGoogleplus|length > 0) or (profile.googleplus|length > 0) %}
+    <span class="bk-socialicons-googleplus">
+      <a href="{% if data.socialIconsGoogleplus|length > 0 and data.socialIconsGoogleplus != 'profile' %}{{ data.socialIconsGoogleplus }}{% else %}{{profile.googleplus}}{% endif %}" target="_blank">Google+</a>
+    </span>
+    {% else %}
+      {% set noGoogleplus = true %}
+    {% endif %}
+
+    <!-- youtube -->
+    {% if (data.socialIconsYoutube != 'profile' and data.socialIconsYoutube|length > 0) or (profile.youtube|length > 0) %}
+    <span class="bk-socialicons-youtube">
+      <a href="{% if data.socialIconsYoutube|length > 0 and data.socialIconsYoutube != 'profile' %}{{ data.socialIconsYoutube }}{% else %}{{profile.youtube}}{% endif %}" target="_blank">Youtube</a>
+    </span>
+    {% else %}
+      {% set noYoutube = true %}
+    {% endif %}
+
+    {% if noLinkedIn and noTwitter and noFacebook and noRss and noGoogleplus and noYoutube and app.mode != 'published' and app.mode != 'site-preview' %}
+    <span>No social icons</span>
+    {% endif %}
+
+</div>
+{% endif %}
+
+
+{% if (data.profileType|length == 0 or (data.profileType != 'address' and data.profileType != 'email' and data.profileType != 'headline' and data.profileType != 'strapline' and data.profileType != 'companydescription' and data.profileType != 'phone' and data.profileType != 'business' and data.profileType != 'copyright' and data.profileType != 'twitter' and data.profileType != 'map' and data.profileType != 'form' and data.profileType != 'socialicons')) and app.mode != 'published' and app.mode != 'site-preview' %}
+<p> Sorry, something is wrong with this widget </p>
+{% endif %}
