@@ -1,4 +1,3 @@
-basekit-baseplate
-=================
+Sycamore
 
-An essentials template for BaseKit development
+=====
